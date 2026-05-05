@@ -1,34 +1,3 @@
-// // app/dashboard/page.tsx
-// export default function OverviewPage() {
-//   return (
-//     <div className="p-12 max-w-4xl">
-//       <div className="bg-blue-600 rounded-3xl p-10 text-white shadow-2xl">
-//         <h2 className="text-4xl font-black tracking-tighter mb-4">WELCOME TO THE DASHBOARD</h2>
-//         <p className="text-blue-100 text-lg mb-8 max-w-md">
-//           Your connection to the backend is active. Use the sidebar to explore seeded profiles or manage data.
-//         </p>
-//         <a 
-//           href="/dashboard/profiles" 
-//           className="bg-white text-blue-600 px-6 py-3 rounded-xl font-bold hover:bg-blue-50 transition-colors"
-//         >
-//           Open Profile Explorer →
-//         </a>
-//       </div>
-
-//       <div className="mt-10 grid grid-cols-2 gap-6">
-//         <div className="border border-gray-100 p-6 rounded-2xl">
-//           <h4 className="font-bold mb-2 text-gray-400 uppercase text-[10px]">Database Connection</h4>
-//           <p className="text-sm font-medium text-green-600">● Live / Connected</p>
-//         </div>
-//         <div className="border border-gray-100 p-6 rounded-2xl">
-//           <h4 className="font-bold mb-2 text-gray-400 uppercase text-[10px]">System Version</h4>
-//           <p className="text-sm font-medium">v1.0.4-stable</p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 'use client';
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
@@ -60,7 +29,7 @@ export default function DashboardPage() {
   };
 
   const handleLogin = () => {
-    window.location.href = 'http://localhost:8080/auth/github';
+    window.location.href = '${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/github';
   };
 
   return (

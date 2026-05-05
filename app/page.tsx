@@ -2,17 +2,37 @@
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function DashboardPage() {
+  const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   // Function to check if user is logged in
+  // const fetchUser = () => {
+  //   api.get('/user/me')
+  //     .then(res => {router.push('/dashboard');})
+  //     .catch(() => setUser(null))
+  //     .finally(() => setLoading(false));
+  // };
   const fetchUser = () => {
+    const token = Cookies.get('accessToken'); // Or whatever the cookie name is
+  
+  if (!token) {
+    setLoading(false);
+    return; // Don't even call the API
+  }
     api.get('/user/me')
-      .then(res => {router.push('/dashboard');})
-      .catch(() => setUser(null))
+      .then(res => {
+        // SAVE the user data to state so the UI updates
+        setUser(res.data); 
+      })
+      .catch((err) => {
+        console.error("Not authenticated", err);
+        setUser(null);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -32,7 +52,7 @@ export default function DashboardPage() {
   };
 
   const handleLogin = () => {
-    window.location.href = 'http://localhost:8080/auth/github';
+    window.location.href = `${backendUrl}/auth/github`;
   };
 
   return (
