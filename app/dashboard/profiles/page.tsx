@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import api from '@/lib/api';
 import { Profile, PageProfileResponse } from '../../types';
 
-export default function ProfileExplorer() {
+function ProfileExplorerContent() {
   const searchParams = useSearchParams();
   const q = searchParams.get('q'); // Natural language query from Sidebar
   console.log(q);
@@ -277,5 +277,20 @@ export default function ProfileExplorer() {
         </div>
       )}
     </div>
+  );
+}
+
+// 2. Export a default function that wraps the content in Suspense
+export default function ProfileExplorer() {
+  return (
+    <Suspense fallback={
+      <div className="p-8 max-w-7xl mx-auto min-h-screen flex items-center justify-center">
+        <p className="text-[10px] font-black uppercase tracking-widest animate-pulse">
+          Loading Explorer...
+        </p>
+      </div>
+    }>
+      <ProfileExplorerContent />
+    </Suspense>
   );
 }
